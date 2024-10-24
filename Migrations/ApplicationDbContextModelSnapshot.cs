@@ -38,11 +38,9 @@ namespace test_cargo_tracker_api.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("cnpj")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("cpf")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
