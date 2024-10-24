@@ -13,6 +13,20 @@ namespace test_cargo_tracker_api.src.Controllers
         {
             _customerInterface = customerInterface;
         }
+
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<CustomerModel>>> createCustomer(CustomerModel newCustomer)
+        {
+            ServiceResponse<CustomerModel> serviceResponse = await _customerInterface.CreateCustomer(newCustomer);
+            
+            if (!serviceResponse.Success)
+            {
+                return BadRequest(serviceResponse);
+            }
+
+            return Created("", serviceResponse);
+        }
+
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<CustomerModel>>>> GetCustomer()
         {

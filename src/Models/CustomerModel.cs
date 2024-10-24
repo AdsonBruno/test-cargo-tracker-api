@@ -9,6 +9,6 @@ namespace test_cargo_tracker_api.src.Models
         public string ClientName { get; set; }
         public string cpf { get; set; }
         public string cnpj { get; set; }
-        public DateTime CreatedTimestamp { get; set; }
+        public DateTime CreatedTimestamp { get; set; } 
     }
 }
