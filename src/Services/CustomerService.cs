@@ -64,11 +64,11 @@ namespace test_cargo_tracker_api.src.Services
 
             try
             {
-                serviceResponse.Date = _context.Customer.ToList();
+                serviceResponse.Data = await _context.Customer.ToListAsync();
 
-                if (serviceResponse.Date.Count == 0)
+                if (serviceResponse.Data.Count == 0)
                 {
-                    serviceResponse.Message = "Não há clientes cadastrados";
+                    serviceResponse.Message = "There are no registered customers";
                 }
             } catch (Exception ex)
             {
