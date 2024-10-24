@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using test_cargo_tracker_api.src.Data;
 using test_cargo_tracker_api.src.Services;
+using test_cargo_tracker_api.src.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +11,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<ICustomerInterface, CustomerService>();
+builder.Services.AddScoped<CpfValidator>();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 
 var app = builder.Build();
 
