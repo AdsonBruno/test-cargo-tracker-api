@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using test_cargo_tracker_api.src.Data;
 using test_cargo_tracker_api.src.Services;
+using test_cargo_tracker_api.src.Services.Container;
 using test_cargo_tracker_api.src.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<ICustomerInterface, CustomerService>();
 builder.Services.AddScoped<CpfValidator>();
+
+builder.Services.AddScoped<IContainerInterface, ContainerService>();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
