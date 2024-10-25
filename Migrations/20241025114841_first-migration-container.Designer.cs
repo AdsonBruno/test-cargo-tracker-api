@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using test_cargo_tracker_api.src.Data;
@@ -11,9 +12,11 @@ using test_cargo_tracker_api.src.Data;
 namespace test_cargo_tracker_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241025114841_first-migration-container")]
+    partial class firstmigrationcontainer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,42 +24,6 @@ namespace test_cargo_tracker_api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("test_cargo_tracker_api.src.Models.Container.ContainerModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClientName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ContainerNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DateOfLastUpdate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("containerCategory")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("containerStatus")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("typeContainer")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Container");
-                });
 
             modelBuilder.Entity("test_cargo_tracker_api.src.Models.CustomerModel", b =>
                 {
