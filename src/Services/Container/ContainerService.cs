@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using test_cargo_tracker_api.src.Data;
+using test_cargo_tracker_api.src.Enums.Container;
 using test_cargo_tracker_api.src.Models;
 using test_cargo_tracker_api.src.Models.Container;
 using test_cargo_tracker_api.src.Utils.Container;
@@ -32,6 +33,21 @@ namespace test_cargo_tracker_api.src.Services.Container
             if (string.IsNullOrWhiteSpace(newContainer.ContainerNumber))
             {
                 serviceResponse.Message = "The Container Number is required";
+                serviceResponse.statusCode = 400;
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
+
+            if (newContainer.TypeContainer <= 0)
+            {
+                serviceResponse.Message = "The Type Container is required and cannot be empty";
+                serviceResponse.statusCode = 400;
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
+
+            if (!Enum.IsDefined(typeof(ContainerTypeEnum), newContainer.TypeContainer)) {
+                serviceResponse.Message = "Invalid container type";
                 serviceResponse.statusCode = 400;
                 serviceResponse.Success = false;
                 return serviceResponse;
