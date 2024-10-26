@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using test_cargo_tracker_api.src.Data;
 using test_cargo_tracker_api.src.Services;
 using test_cargo_tracker_api.src.Services.Container;
 using test_cargo_tracker_api.src.Utils;
+using test_cargo_tracker_api.src.Utils.Container;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +17,15 @@ builder.Services.AddScoped<ICustomerInterface, CustomerService>();
 builder.Services.AddScoped<CpfValidator>();
 
 builder.Services.AddScoped<IContainerInterface, ContainerService>();
+builder.Services.AddScoped<ContainerValidator>();
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 var app = builder.Build();
 

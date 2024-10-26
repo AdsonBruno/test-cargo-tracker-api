@@ -17,6 +17,19 @@ namespace test_cargo_tracker_api.src.Controllers.Container
             _containerInterface = containerInterface;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<ContainerModel>>> CreateContainer(ContainerModel newContainer)
+        {
+            ServiceResponse<ContainerModel> serviceResponse = await _containerInterface.CreateContainer(newContainer);
+
+            if (!serviceResponse.Success)
+            {
+                return BadRequest(serviceResponse);
+            }
+
+            return Created("", serviceResponse);
+        }
+
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<CustomerModel>>> GetAllContainers ()
         {
