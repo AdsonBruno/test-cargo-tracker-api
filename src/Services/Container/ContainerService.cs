@@ -21,6 +21,15 @@ namespace test_cargo_tracker_api.src.Services.Container
         {
             ServiceResponse<ContainerModel> serviceResponse = new ServiceResponse<ContainerModel>();
 
+            if (string.IsNullOrWhiteSpace(newContainer.ClientName))
+            {
+                serviceResponse.Message = "The Cliente Name is required";
+                serviceResponse.statusCode = 400;
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
+
+
             if (!_containerValidator.IsValidContainerNumber(newContainer.ContainerNumber))
             {
                 serviceResponse.Message = "The container number is invalid.";
