@@ -38,6 +38,14 @@ namespace test_cargo_tracker_api.src.Services.Container
                 return serviceResponse;
             }
 
+            if (!_containerValidator.IsValidContainerNumber(newContainer.ContainerNumber))
+            {
+                serviceResponse.Message = "The container number is invalid.";
+                serviceResponse.statusCode = 400;
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
+
             if (newContainer.TypeContainer <= 0)
             {
                 serviceResponse.Message = "The Type Container is required and cannot be empty";
@@ -53,9 +61,17 @@ namespace test_cargo_tracker_api.src.Services.Container
                 return serviceResponse;
             }
 
-            if (!_containerValidator.IsValidContainerNumber(newContainer.ContainerNumber))
+            if (newContainer.ContainerStatus == null || !Enum.IsDefined(typeof(ContainerStatusEnum), newContainer.ContainerStatus))
             {
-                serviceResponse.Message = "The container number is invalid.";
+                serviceResponse.Message = "The Container Status is required and cannot be empty";
+                serviceResponse.statusCode = 400;
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
+
+            if (newContainer.ContainerCategory == null || !Enum.IsDefined(typeof(ContainerCategoryEnum), newContainer.ContainerCategory))
+            {
+                serviceResponse.Message = "The Container Status is required and cannot be empty";
                 serviceResponse.statusCode = 400;
                 serviceResponse.Success = false;
                 return serviceResponse;

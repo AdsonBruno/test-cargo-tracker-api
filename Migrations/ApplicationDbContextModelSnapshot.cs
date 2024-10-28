@@ -34,9 +34,15 @@ namespace test_cargo_tracker_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("ContainerCategory")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ContainerNumber")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("ContainerStatus")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
@@ -44,13 +50,7 @@ namespace test_cargo_tracker_api.Migrations
                     b.Property<DateTime>("DateOfLastUpdate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("containerCategory")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("containerStatus")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("typeContainer")
+                    b.Property<int>("TypeContainer")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
