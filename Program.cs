@@ -20,6 +20,8 @@ builder.Services.AddScoped<CpfValidator>();
 builder.Services.AddScoped<IContainerInterface, ContainerService>();
 builder.Services.AddScoped<ContainerValidator>();
 
+builder.Services.AddScoped<IContainerMovement, ContainerMovementService>();
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
