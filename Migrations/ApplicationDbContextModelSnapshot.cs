@@ -34,14 +34,14 @@ namespace test_cargo_tracker_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ContainerCategory")
+                    b.Property<int?>("ContainerCategory")
                         .HasColumnType("integer");
 
                     b.Property<string>("ContainerNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ContainerStatus")
+                    b.Property<int?>("ContainerStatus")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreationDate")
@@ -82,6 +82,50 @@ namespace test_cargo_tracker_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("test_cargo_tracker_api.src.Models.Movements.MovementModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ContainerId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("EndDateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("StartDateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContainerId");
+
+                    b.ToTable("Movements");
+                });
+
+            modelBuilder.Entity("test_cargo_tracker_api.src.Models.Movements.MovementModel", b =>
+                {
+                    b.HasOne("test_cargo_tracker_api.src.Models.Container.ContainerModel", "Container")
+                        .WithMany("Movements")
+                        .HasForeignKey("ContainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Container");
+                });
+
+            modelBuilder.Entity("test_cargo_tracker_api.src.Models.Container.ContainerModel", b =>
+                {
+                    b.Navigation("Movements");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using test_cargo_tracker_api.src.Data;
 using test_cargo_tracker_api.src.Services;
 using test_cargo_tracker_api.src.Services.Container;
+using test_cargo_tracker_api.src.Services.Movements;
 using test_cargo_tracker_api.src.Utils;
 using test_cargo_tracker_api.src.Utils.Container;
 
