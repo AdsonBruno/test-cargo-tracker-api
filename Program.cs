@@ -4,6 +4,7 @@ using test_cargo_tracker_api.src.Data;
 using test_cargo_tracker_api.src.Services;
 using test_cargo_tracker_api.src.Services.Container;
 using test_cargo_tracker_api.src.Services.Movements;
+using test_cargo_tracker_api.src.Strategies.Movements;
 using test_cargo_tracker_api.src.Utils;
 using test_cargo_tracker_api.src.Utils.Container;
 
@@ -21,6 +22,7 @@ builder.Services.AddScoped<IContainerInterface, ContainerService>();
 builder.Services.AddScoped<ContainerValidator>();
 
 builder.Services.AddScoped<IContainerMovement, ContainerMovementService>();
+builder.Services.AddScoped<ContainerMovementContext>();
 
 builder.Services.AddSwaggerGen();
 

@@ -2,50 +2,41 @@
 using test_cargo_tracker_api.src.Models;
 using test_cargo_tracker_api.src.Models.Container;
 using test_cargo_tracker_api.src.Models.Movements;
+using test_cargo_tracker_api.src.Strategies.Movements;
 
 namespace test_cargo_tracker_api.src.Services.Movements
 {
     public class ContainerMovementService : IContainerMovement
     {
         private readonly ApplicationDbContext _context;
+        private readonly ContainerMovementContext _movementContext;
         
-        public ContainerMovementService(ApplicationDbContext context)
+        public ContainerMovementService(ApplicationDbContext context, ContainerMovementContext movementContext)
         {
             _context = context;
+            _movementContext = movementContext;
         }
 
-        public async Task<ServiceResponse<MovementModel>> MoveContainer(MovementModel movement)
+        public async Task<ServiceResponse<MovementModel>> MoveContainer(MovementModel movement, IContainerMovementStrategy strategy)
         {
-            ServiceResponse<MovementModel> serviceResponse = new ServiceResponse<MovementModel>();
-            
-            ContainerModel container = await _context.Container.FindAsync(movement.ContainerId);
+            _movementContext.SetStrategy(strategy);
 
-            if (container == null)
+            ServiceResponse<MovementModel> serviceResponse = await _movementContext.ExecuteMovement(movement);
+
+            if (!serviceResponse.Success)
             {
-                serviceResponse.Message = "Container not found";
-                serviceResponse.Success = false;
-                serviceResponse.statusCode = 404;
-
                 return serviceResponse;
             }
 
-            MovementModel newMovement = new MovementModel
-            {
-                ContainerId = movement.ContainerId,
-                Type = movement.Type,
-                StartDateTime = movement.StartDateTime,
-                EndDateTime = movement.EndDateTime,
-            };
-
-            await _context.Movements.AddAsync(newMovement);
+            await _context.Movements.AddAsync(movement);
             await _context.SaveChangesAsync();
 
-            serviceResponse.Data = newMovement;
-            serviceResponse.Message = "Movement registered successfully";
+            serviceResponse.Data = movement;
+            serviceResponse.Message = "Movement registered and saved successfully";
+            serviceResponse.Success = true;
             serviceResponse.statusCode = 201;
-
             return serviceResponse;
-        }
 
+        }
     }
 }
